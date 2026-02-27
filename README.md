@@ -8,15 +8,15 @@
 This repository contains a standalone, client-side web application designed to conduct human-computer interaction (HCI) pilot tests. The tool captures high-frequency mouse telemetry data—specifically coordinate tracking (X, Y), velocity, and click patterns—while users perform designated cognitive tasks. 
 
 ## 🎓 Research Context
-[cite_start]This tool was developed as **Work Package 2: Technical Pilot & Feasibility Phase** [cite: 359] [cite_start]for the undergraduate software engineering research project: *"Emotion-Adaptive Focus Mode Browser Extension"*[cite: 2]. 
+This tool was developed as **Work Package 2: Technical Pilot & Feasibility Phase** for the undergraduate software engineering research project: *"Emotion-Adaptive Focus Mode Browser Extension"*. 
 
-[cite_start]The primary goal of this pilot is to gather empirical behavioral data to mathematically determine the thresholds for "Jitter" and "Velocity" in relation to cognitive load[cite: 363]. [cite_start]It also serves to calibrate "Rage Click" detection logic to prevent false positives in the final machine-learning fusion engine[cite: 364].
+The primary goal of this pilot is to gather empirical behavioral data to mathematically determine the thresholds for "Jitter" and "Velocity" in relation to cognitive load. It also serves to calibrate "Rage Click" detection logic to prevent false positives in the final machine-learning fusion engine.
 
 ## ✨ Key Features
 * **Zero-Setup Execution:** Runs entirely in the browser using standard HTML/CSS/JS. No local server or backend required.
 * **Controlled Task Environments:**
-    * [cite_start]**Task A (Low Stress):** A baseline reading comprehension task without time constraints[cite: 423].
-    * [cite_start]**Task B (High Stress):** A timed logic and mathematics section designed to induce mild cognitive load and urgency[cite: 424].
+    * **Task A (Low Stress):** A baseline reading comprehension task without time constraints.
+    * **Task B (High Stress):** A timed logic and mathematics section designed to induce mild cognitive load and urgency[cite: 424].
 * **High-Frequency Telemetry:** Captures mouse movements throttled to ~60Hz to calculate real-time movement velocity.
 * **Automated CSV Export:** Compiles captured data into a structured CSV file for immediate statistical analysis.
 
@@ -45,9 +45,9 @@ The exported CSV file contains the following structured data:
 The interface utilizes a modern, calm, light-themed aesthetic to ensure the UI itself does not induce baseline stress prior to the tasks. It features soft shadows, intuitive active states, and clear typography to maintain a highly controlled testing environment.
 
 ## 👤 Author
-[cite_start]**Baddewaththe Laalitha Niroshan Gunarathna** [cite: 3]
-* [cite_start]BSc (Hons) Software Engineering Undergraduate [cite: 11]
-* [cite_start]CINEC Campus [cite: 1]
+**Baddewaththe Laalitha Niroshan Gunarathna** 
+* BSc (Hons) Software Engineering Undergraduate
+* CINEC Campus
 
 ## 📄 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
