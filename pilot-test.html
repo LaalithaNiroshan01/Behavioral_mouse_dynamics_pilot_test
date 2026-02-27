@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Behavioral Pilot Test - Research Project</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --container-bg: #ffffff;
+            --text-main: #2d3748;
+            --text-muted: #718096;
+            --primary-color: #3182ce;
+            --primary-hover: #2b6cb0;
+            --accent-green: #38a169;
+            --accent-green-hover: #2f855a;
+            --accent-red: #e53e3e;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --border-color: #e2e8f0;
+        }
+
+        body { 
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
+            padding: 40px 20px; 
+            background: var(--bg-color); 
+            color: var(--text-main); 
+            line-height: 1.6;
+        }
+
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+        }
+
+        /* =========================
+           ENHANCED MAIN TITLE
+        ========================== */
+
+        .main-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .main-header h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #3182ce, #38a169);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+        }
+
+        .main-header p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        /* =========================
+           ENHANCED INSTRUCTIONS PANEL
+        ========================== */
+
+        .instructions-panel {
+            position: relative;
+            background: linear-gradient(135deg, #ebf8ff, #e6fffa);
+            border: 1px solid #bee3f8;
+            padding: 28px 30px;
+            border-radius: 14px;
+            margin-bottom: 35px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .instructions-panel::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 6px;
+            background: linear-gradient(to bottom, #3182ce, #38a169);
+            border-radius: 14px 0 0 14px;
+        }
+
+        .instructions-panel h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #1a365d;
+        }
+
+        .instructions-panel strong {
+            color: #1a202c;
+        }
+
+        .instructions-panel ul {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        .instructions-panel li {
+            margin-bottom: 8px;
+            color: #2d3748;
+        }
+
+        /* =========================
+           EXISTING DESIGN (UNCHANGED)
+        ========================== */
+
+        h3 { color: #1a202c; }
+
+        .task-box { 
+            background: var(--container-bg); 
+            padding: 30px; 
+            border-radius: 12px; 
+            margin-bottom: 30px; 
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .task-box:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        button { 
+            background: var(--primary-color); 
+            color: white; 
+            border: none; 
+            padding: 12px 24px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: 500;
+            margin-right: 10px;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        button:hover:not(:disabled) { 
+            background: var(--primary-hover); 
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(49, 130, 206, 0.3);
+        }
+
+        button:disabled { 
+            background: #cbd5e0; 
+            color: #a0aec0;
+            cursor: not-allowed; 
+            box-shadow: none;
+        }
+
+        .option-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background: #f7fafc;
+            color: var(--text-main);
+            border: 2px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .option-btn:hover {
+            background: #edf2f7;
+        }
+
+        .option-btn.selected {
+            background: #ebf8ff;
+            border-color: var(--primary-color);
+            color: var(--primary-hover);
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
+        }
+
+        input[type="text"] { 
+            padding: 12px 16px; 
+            border-radius: 6px; 
+            border: 1px solid var(--border-color); 
+            width: 100%;
+            max-width: 300px;
+            font-size: 15px;
+            background: #f8fafc;
+        }
+
+        .reading-block {
+            background: #f8fafc; 
+            padding: 20px; 
+            line-height: 1.8; 
+            border-left: 4px solid var(--primary-color);
+            border-radius: 0 8px 8px 0;
+            color: #4a5568;
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+        }
+
+        .stress-header {
+            color: var(--accent-red);
+            background: #fff5f5;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #fed7d7;
+            margin-bottom: 20px;
+        }
+
+        #logArea { 
+            width: 100%; 
+            height: 150px; 
+            background: #f1f5f9; 
+            font-family: 'Courier New', monospace; 
+            border: 1px solid var(--border-color); 
+            border-radius: 8px;
+            margin-top: 10px; 
+            padding: 15px; 
+        }
+
+        .download-section {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px dashed var(--border-color);
+        }
+
+        .download-btn {
+            background: var(--accent-green);
+            font-size: 18px;
+            padding: 16px 40px;
+            border-radius: 30px;
+        }
+
+        .download-btn:hover:not(:disabled) {
+            background: var(--accent-green-hover);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+<div class="container">
+
+    <!-- NEW ENHANCED TITLE -->
+    <div class="main-title">
+        <h1>Behavioral Pilot Test</h1>
+        <p>Human–Computer Interaction Study | Mouse Dynamics & Cognitive Stress Analysis</p>
+    </div>
+
+    <!-- ENHANCED INSTRUCTIONS PANEL (CONTENT UNCHANGED) -->
+    <div class="instructions-panel">
+        <h2>Welcome to the Behavioral Pilot Test</h2>
+        <p><strong>Purpose:</strong> This test gathers behavioral mouse dynamics (speed, hesitation, clicks, and paths) to calibrate the AI model for our Emotion-Adaptive Focus Browser Extension.</p>
+        <p><strong>Instructions:</strong></p>
+        <ul>
+            <li>Enter a unique Participant ID below and click "Start Recording".</li>
+            <li>Read and answer the tasks as naturally as possible.</li>
+            <li>Move your mouse exactly as you normally would when browsing or thinking.</li>
+            <li>Once both Task A and Task B are completed, click the Download button at the bottom of the page to save your session data.</li>
+        </ul>
+    </div>
+
+</div>
+
+        <div class="task-box">
+            <h3>Step 1: Setup & Initialization</h3>
+            <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                <label style="font-weight: 500;">Participant ID: </label>
+                <input type="text" id="participantId" placeholder="e.g., P001">
+                <button onclick="startLogging()" id="startBtn">Start Recording</button>
+            </div>
+        </div>
+
+        <div class="task-box">
+            <h3>Task A: Low Stress (Reading & Comprehension)</h3>
+            <p class="text-muted">Please read the following text naturally. There is no time limit. Answer the simple questions below when you are done.</p>
+            
+            <div class="reading-block">
+                "Technology-based study methods are increasingly used in teaching and learning. This not only increases the attractiveness of learning but also creates new challenges in balancing the benefits of technology and its harm to students' wellbeing. It emerges a new concept of digital wellbeing, which encompasses physical, mental, and emotional health in digital environments. Finding the balance requires self-awareness, properly designed interfaces, and designated time away from screens to process information deeply."
+            </div>
+
+            <p style="font-weight: 500; margin-bottom: 5px;">1. What is the main concept introduced in the text?</p>
+            <div class="option-group" id="q1-group">
+                <button class="option-btn" onclick="selectOption(this, 'q1-group')">Screen Time Management</button>
+                <button class="option-btn" onclick="selectOption(this, 'q1-group')">Digital Wellbeing</button>
+                <button class="option-btn" onclick="selectOption(this, 'q1-group')">Interface Design</button>
+                <button class="option-btn" onclick="selectOption(this, 'q1-group')">Hardware Manufacturing</button>
+            </div>
+
+            <p style="font-weight: 500; margin-bottom: 5px;">2. According to the text, finding balance requires:</p>
+            <div class="option-group" id="q2-group">
+                <button class="option-btn" onclick="selectOption(this, 'q2-group')">Newer Devices</button>
+                <button class="option-btn" onclick="selectOption(this, 'q2-group')">Faster Internet</button>
+                <button class="option-btn" onclick="selectOption(this, 'q2-group')">Self-awareness</button>
+            </div>
+            
+            <br>
+            <button onclick="markTask('Task A Complete')" style="background: var(--text-muted);">Mark Task A Finished</button>
+        </div>
+
+        <div class="task-box">
+            <h3>Task B: High Stress (Timed Logic)</h3>
+            <div class="stress-header">
+                <strong>⚠️ INSTRUCTION:</strong> Solve the following logic and math puzzles as FAST as possible! You only have 30 seconds to complete this section. 
+            </div>
+            
+            <div id="stressContainer">
+                <p style="font-weight: 500;">1. If 5x + 3 = 18, what is the value of x?</p>
+                <input type="text" placeholder="Type answer here..." style="margin-bottom: 20px;">
+                
+                <p style="font-weight: 500;">2. Click the RED button only:</p>
+                <div class="option-group">
+                    <button class="option-btn" style="color: #38a169; border-color: #38a169;" onclick="recordClick('False Target')">Green</button>
+                    <button class="option-btn" style="color: #e53e3e; border-color: #e53e3e;" onclick="recordClick('Target Hit')">Red</button>
+                    <button class="option-btn" style="color: #3182ce; border-color: #3182ce;" onclick="recordClick('False Target')">Blue</button>
+                    <button class="option-btn" style="color: #d69e2e; border-color: #d69e2e;" onclick="recordClick('False Target')">Yellow</button>
+                </div>
+
+                <p style="font-weight: 500;">3. Select the largest number in this array:</p>
+                <div class="option-group" id="q3-group">
+                    <button class="option-btn" onclick="selectOption(this, 'q3-group')">40,020</button>
+                    <button class="option-btn" onclick="selectOption(this, 'q3-group')">40,200</button>
+                    <button class="option-btn" onclick="selectOption(this, 'q3-group')">42,000</button>
+                    <button class="option-btn" onclick="selectOption(this, 'q3-group')">40,002</button>
+                </div>
+
+                <p style="font-weight: 500;">4. What is the next number in the sequence: 2, 6, 12, 20, ...?</p>
+                <div class="option-group" id="q4-group">
+                    <button class="option-btn" onclick="selectOption(this, 'q4-group')">28</button>
+                    <button class="option-btn" onclick="selectOption(this, 'q4-group')">30</button>
+                    <button class="option-btn" onclick="selectOption(this, 'q4-group')">32</button>
+                    <button class="option-btn" onclick="selectOption(this, 'q4-group')">36</button>
+                </div>
+
+                <p style="font-weight: 500;">5. Unscramble the word: "E R W B S O R"</p>
+                <input type="text" placeholder="Type answer here..." style="margin-bottom: 20px;">
+            </div>
+            
+            <button onclick="markTask('Task B Complete')" style="background: var(--text-muted);">Mark Task B Finished</button>
+        </div>
+
+        <div class="task-box">
+            <h3>Data Log Preview</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Real-time feed of captured telemetry (X, Y, Velocity)</p>
+            <textarea id="logArea" readonly placeholder="Waiting for data..."></textarea>
+            
+            <div class="download-section">
+                <h2>Ready to Submit?</h2>
+                <p style="margin-bottom: 20px;">Ensure you have marked both tasks as finished before downloading your dataset.</p>
+                <button class="download-btn" onclick="downloadData()" disabled id="downloadBtn">Download Raw Data (CSV)</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let logs = [];
+        let isRecording = false;
+        let pId = "Anon";
+        let lastTime = Date.now();
+
+        function startLogging() {
+            const idInput = document.getElementById('participantId').value.trim();
+            pId = idInput || "Anon_" + Math.floor(Math.random() * 1000);
+            isRecording = true;
+            
+            // UI Updates
+            document.getElementById('startBtn').innerText = "Recording Live 🔴";
+            document.getElementById('startBtn').style.background = "#e53e3e";
+            document.getElementById('downloadBtn').disabled = false;
+            
+            logEvent("Session Started", 0, 0);
+            alert("Recording started successfully! Please proceed with Task A.");
+        }
+
+        function logEvent(type, x, y) {
+            if (!isRecording) return;
+            const now = Date.now();
+            let velocity = 0;
+            
+            // Calculate velocity if previous point exists
+            if (logs.length > 0) {
+                const last = logs[logs.length - 1];
+                const dt = now - last.timestamp;
+                const dist = Math.sqrt(Math.pow(x - last.x, 2) + Math.pow(y - last.y, 2));
+                if (dt > 0) velocity = dist / dt; 
+            }
+            
+            logs.push({
+                timestamp: now,
+                participant: pId,
+                eventType: type,
+                x: x,
+                y: y,
+                velocity: velocity.toFixed(4)
+            });
+            
+            // Update UI preview occasionally
+            if (logs.length % 50 === 0) {
+                document.getElementById('logArea').value = JSON.stringify(logs.slice(-3), null, 2);
+            }
+        }
+
+        // Handle visual selection and logging for custom option buttons
+        function selectOption(button, groupName) {
+            if (!isRecording) alert("Please click 'Start Recording' at the top first!");
+            
+            // Remove 'selected' class from all buttons in the specific group
+            const group = document.getElementById(groupName);
+            const buttons = group.getElementsByClassName('option-btn');
+            for (let btn of buttons) {
+                btn.classList.remove('selected');
+            }
+            
+            // Add 'selected' to the clicked button
+            button.classList.add('selected');
+            
+            // Log the user's explicit choice
+            logEvent(`SELECTED: ${button.innerText}`, 0, 0);
+        }
+
+        function markTask(taskName) {
+            if (!isRecording) return alert("Please start recording first!");
+            logEvent(`MARKER: ${taskName}`, 0, 0);
+            alert(`${taskName} timestamp recorded.`);
+        }
+
+        function recordClick(msg) {
+            logEvent(`BUTTON_CLICK: ${msg}`, 0, 0);
+        }
+
+        // Global Event Listeners for telemetry
+        document.addEventListener('mousemove', (e) => {
+            // Throttle to ~60fps (every 16ms)
+            const now = Date.now();
+            if (now - lastTime > 16) {
+                logEvent("MOVE", e.clientX, e.clientY);
+                lastTime = now;
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            // Do not double-log if they clicked an option button (which has its own logic), but capture coordinates
+            logEvent("GLOBAL_CLICK", e.clientX, e.clientY);
+        });
+
+        // Generate and download CSV
+        function downloadData() {
+            isRecording = false;
+            document.getElementById('startBtn').innerText = "Session Complete ✅";
+            document.getElementById('startBtn').style.background = "#38a169";
+            
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Timestamp,Participant,EventType,X,Y,Velocity\n";
+            
+            logs.forEach(row => {
+                csvContent += `${row.timestamp},${row.participant},${row.eventType},${row.x},${row.y},${row.velocity}\n`;
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `pilot_data_${pId}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
