@@ -24,7 +24,9 @@
         body { 
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
             padding: 40px 20px; 
-            background: var(--bg-color); 
+            /* 3. ADDED BACKGROUND IMAGE */
+            background: var(--bg-color) url('BG.jpg') no-repeat center center fixed; 
+            background-size: cover;
             color: var(--text-main); 
             line-height: 1.6;
         }
@@ -32,37 +34,36 @@
         .container { 
             max-width: 900px; 
             margin: 0 auto; 
+            /* Added to make everything readable over the new background image */
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-hover);
         }
-
-        /* =========================
-           ENHANCED MAIN TITLE
-        ========================== */
-
-        .main-header {
+        .main-title {
             text-align: center;
             margin-bottom: 40px;
         }
 
-        .main-header h1 {
-            font-size: 2.4rem;
-            font-weight: 700;
+        .main-title h1 {
+            font-size: 3.5rem; /* Bigger */
+            font-weight: 800;
             margin-bottom: 10px;
-            background: linear-gradient(90deg, #3182ce, #38a169);
+            margin-top: 0;
+            background: linear-gradient(90deg, #3182ce, #38a169, #3182ce);
+            background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: 0.5px;
         }
 
-        .main-header p {
-            font-size: 1rem;
+        .main-title p {
+            font-size: 1.1rem;
             color: var(--text-muted);
             max-width: 650px;
             margin: 0 auto;
         }
-
-        /* =========================
-           ENHANCED INSTRUCTIONS PANEL
-        ========================== */
 
         .instructions-panel {
             position: relative;
@@ -244,40 +245,44 @@
         .download-btn:hover:not(:disabled) {
             background: var(--accent-green-hover);
         }
+
+        /* Animation for timer */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        
-<div class="container">
+        <div class="main-title">
+            <h1>Behavioral Pilot Test</h1>
+            <p>Human–Computer Interaction Study | Mouse Dynamics & Cognitive Stress Analysis</p>
+        </div>
 
-    <!-- NEW ENHANCED TITLE -->
-    <div class="main-title">
-        <h1>Behavioral Pilot Test</h1>
-        <p>Human–Computer Interaction Study | Mouse Dynamics & Cognitive Stress Analysis</p>
-    </div>
-
-    <!-- ENHANCED INSTRUCTIONS PANEL (CONTENT UNCHANGED) -->
-    <div class="instructions-panel">
-        <h2>Welcome to the Behavioral Pilot Test</h2>
-        <p><strong>Purpose:</strong> This test gathers behavioral mouse dynamics (speed, hesitation, clicks, and paths) to calibrate the AI model for our Emotion-Adaptive Focus Browser Extension.</p>
-        <p><strong>Instructions:</strong></p>
-        <ul>
-            <li>Enter a unique Participant ID below and click "Start Recording".</li>
-            <li>Read and answer the tasks as naturally as possible.</li>
-            <li>Move your mouse exactly as you normally would when browsing or thinking.</li>
-            <li>Once both Task A and Task B are completed, click the Download button at the bottom of the page to save your session data.</li>
-        </ul>
-    </div>
-
-</div>
+        <div class="instructions-panel">
+            <h2>Welcome to the Behavioral Pilot Test</h2>
+            <p><strong>Purpose:</strong> This test gathers behavioral mouse dynamics (speed, hesitation, clicks, and paths) to calibrate the AI model for our Emotion-Adaptive Focus Browser Extension.</p>
+            <p><strong>Instructions:</strong></p>
+            <ul>
+                <li>Enter a unique Participant ID below and click "Start Recording".</li>
+                <li>Read and answer the tasks as naturally as possible.</li>
+                <li>Move your mouse exactly as you normally would when browsing or thinking.</li>
+                <li>Once both Task A and Task B are completed, click the Download button at the bottom of the page to save your session data.</li>
+            </ul>
+        </div>
 
         <div class="task-box">
             <h3>Step 1: Setup & Initialization</h3>
-            <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
-                <label style="font-weight: 500;">Participant ID: </label>
-                <input type="text" id="participantId" placeholder="e.g., P001">
-                <button onclick="startLogging()" id="startBtn">Start Recording</button>
+            
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                    <label style="font-weight: 500;">Participant ID: </label>
+                    <input type="text" id="participantId" placeholder="e.g., JD-20260227">
+                    <button onclick="startLogging()" id="startBtn">Start Recording</button>
+                </div>
+                <small style="color: var(--text-muted);">Format: Initials of name and Submitted date (e.g., JD-20260227)</small>
             </div>
         </div>
 
@@ -312,9 +317,14 @@
             <h3>Task B: High Stress (Timed Logic)</h3>
             <div class="stress-header">
                 <strong>⚠️ INSTRUCTION:</strong> Solve the following logic and math puzzles as FAST as possible! You only have 30 seconds to complete this section. 
+                
+                <div style="text-align: center; margin-top: 15px;">
+                    <button id="startTaskBBtn" onclick="startTaskBTimer()" style="background: var(--accent-red);">Start 30s Timer</button>
+                    <div id="taskBTimerDisplay" style="font-size: 2.5rem; font-weight: bold; color: var(--accent-red); display: none;">30s</div>
+                </div>
             </div>
             
-            <div id="stressContainer">
+            <div id="stressContainer" style="opacity: 0.5; pointer-events: none; transition: opacity 0.3s;">
                 <p style="font-weight: 500;">1. If 5x + 3 = 18, what is the value of x?</p>
                 <input type="text" placeholder="Type answer here..." style="margin-bottom: 20px;">
                 
@@ -346,6 +356,7 @@
                 <input type="text" placeholder="Type answer here..." style="margin-bottom: 20px;">
             </div>
             
+            <br>
             <button onclick="markTask('Task B Complete')" style="background: var(--text-muted);">Mark Task B Finished</button>
         </div>
 
@@ -368,6 +379,8 @@
         let isRecording = false;
         let pId = "Anon";
         let lastTime = Date.now();
+        let taskBTimer;
+        let taskBTimeLeft = 30;
 
         function startLogging() {
             const idInput = document.getElementById('participantId').value.trim();
@@ -383,12 +396,48 @@
             alert("Recording started successfully! Please proceed with Task A.");
         }
 
+        // 1. ADDED COUNTDOWN TIMER LOGIC
+        function startTaskBTimer() {
+            if (!isRecording) return alert("Please click 'Start Recording' at the top first!");
+            
+            document.getElementById('startTaskBBtn').style.display = 'none';
+            const timerDisplay = document.getElementById('taskBTimerDisplay');
+            timerDisplay.style.display = 'block';
+            
+            // Unlock the stress container questions
+            const container = document.getElementById('stressContainer');
+            container.style.opacity = '1';
+            container.style.pointerEvents = 'auto';
+
+            logEvent("MARKER: Task B Timer Started", 0, 0);
+
+            taskBTimer = setInterval(() => {
+                taskBTimeLeft--;
+                timerDisplay.innerText = taskBTimeLeft + "s";
+                
+                // Add pulse animation when running out of time
+                if(taskBTimeLeft <= 10) {
+                    timerDisplay.style.animation = "pulse 1s infinite";
+                }
+
+                if (taskBTimeLeft <= 0) {
+                    clearInterval(taskBTimer);
+                    timerDisplay.innerText = "TIME UP!";
+                    timerDisplay.style.animation = "none";
+                    
+                    // Lock the container again
+                    container.style.opacity = '0.5';
+                    container.style.pointerEvents = 'none';
+                    logEvent("MARKER: Task B Time Up", 0, 0);
+                }
+            }, 1000);
+        }
+
         function logEvent(type, x, y) {
             if (!isRecording) return;
             const now = Date.now();
             let velocity = 0;
             
-            // Calculate velocity if previous point exists
             if (logs.length > 0) {
                 const last = logs[logs.length - 1];
                 const dt = now - last.timestamp;
@@ -405,27 +454,21 @@
                 velocity: velocity.toFixed(4)
             });
             
-            // Update UI preview occasionally
             if (logs.length % 50 === 0) {
                 document.getElementById('logArea').value = JSON.stringify(logs.slice(-3), null, 2);
             }
         }
 
-        // Handle visual selection and logging for custom option buttons
         function selectOption(button, groupName) {
             if (!isRecording) alert("Please click 'Start Recording' at the top first!");
             
-            // Remove 'selected' class from all buttons in the specific group
             const group = document.getElementById(groupName);
             const buttons = group.getElementsByClassName('option-btn');
             for (let btn of buttons) {
                 btn.classList.remove('selected');
             }
             
-            // Add 'selected' to the clicked button
             button.classList.add('selected');
-            
-            // Log the user's explicit choice
             logEvent(`SELECTED: ${button.innerText}`, 0, 0);
         }
 
@@ -439,9 +482,7 @@
             logEvent(`BUTTON_CLICK: ${msg}`, 0, 0);
         }
 
-        // Global Event Listeners for telemetry
         document.addEventListener('mousemove', (e) => {
-            // Throttle to ~60fps (every 16ms)
             const now = Date.now();
             if (now - lastTime > 16) {
                 logEvent("MOVE", e.clientX, e.clientY);
@@ -450,11 +491,9 @@
         });
 
         document.addEventListener('click', (e) => {
-            // Do not double-log if they clicked an option button (which has its own logic), but capture coordinates
             logEvent("GLOBAL_CLICK", e.clientX, e.clientY);
         });
 
-        // Generate and download CSV
         function downloadData() {
             isRecording = false;
             document.getElementById('startBtn').innerText = "Session Complete ✅";
